@@ -53,4 +53,31 @@
 
    So, I can spec a 0.020 uF capacitor with upto +/-25%.
 
-1.
+1. Specifying the Vsense voltage divider resistors, R5 and R6:
+
+   The datasheet specifies that R5 should be fixed at 10k.
+
+   It provides an equation for R6:
+
+   ```Math
+   R6 = (R5 - Vout) / (Vout - Vref)
+   ```
+
+   In another section it says Vref = 0.8V
+
+   Therefore:
+
+   R5 = 10k R6 = 1.905k = 1.91k (of which there are multiple SMD parts on
+   digikey)
+
+1. Specifying the output inductor:
+
+   Using the datasheet equations--pretty self explanatory.
+
+   I found:
+
+   Lmin = 7.073 uH ILpp = 0.52 A ILrms = 1.51 A ILpk = 1.76 A
+
+   Therefore an inductor was chosen such that:
+
+   L_min_with_tolerance > 7 uH I_L_saturation_current > 1.76 A I_L_RMS > 1.51 A
