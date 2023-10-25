@@ -81,3 +81,65 @@
    Therefore an inductor was chosen such that:
 
    L_min_with_tolerance > 7 uH I_L_saturation_current > 1.76 A I_L_RMS > 1.51 A
+
+1. Specifying the output capacitor:
+
+   $$
+   C_{out} > \frac{1}{2\Pi*R_o*F_{CO_{max}}
+   $$
+
+   Since $R_{o} = \frac{V_{o}}{I_{o}} = \frac{5}{1.5} = 3.5 => 4$ and
+   $F_{CO_{max}}$ is $\frac{1}{5} F_{switching}$, but clamped at 70kHz:
+
+   $$
+   C_{out} > 0.57 uF
+   $$
+
+   Also:
+
+   $$
+   V_{out_{pp}} = I_{L_{pp}} \frac{D - 0.5}{4 F_{sw} C_{out}}
+   $$
+
+   $V_{out_{pp}}$ is greatest with maximized with largest $D$, `0.9`, and the
+   ESR will be a driving parameter of the capacitor as well.
+
+   $$
+   ESR_{C_{out}} < \frac{V_{O_{pp_{max}}}}{I_{L_{pp}}} - \
+      \frac{D - 0.5}{4 * F_{sw} * C_{out}}
+   $$
+
+   $$
+   ESR(C_{out}) < 1.154 - \frac{0.4}{280k * C_{out}}
+   $$
+
+   $$
+   ESR(0.57u) < 1.154 - 2.51 \implies \text{DOESN'T WORK}
+   $$
+
+   $$
+   ESR(1.5u) < 0.202 \Omega
+   $$
+
+   I found
+   [this](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/885012207023/5453510)
+   capacitor which should work. It doesn't specify the ESR, but instead
+   specifies the dissipation factor (DF). Working it out on paper, its ESR is
+   $75.8 \Omega$.
+
+1. Specifying the catch diode:
+
+   - Must Have the following:
+     - Absolute Maximum Ratings:
+       - reverse voltage > V_in_max + 0.5
+         - reverse voltage > 15.5 V
+       - peak current > I_out_max + (i_l_pkpk/2)
+         - peak current > 2.5 A
+     - Capable of dissipating power losses.
+
+1. Specifying the Compensation Components:
+
+   1. Choose closed loop crossover frequency.
+      - $= \frac{1}{8} * F_{min_{operating}}$ (I assume operating frequency is
+        the same as switching frequency.)
+      - $F_{CO} < 75 kHz$
