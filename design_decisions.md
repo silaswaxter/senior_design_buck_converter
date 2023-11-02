@@ -143,3 +143,45 @@
       - $= \frac{1}{8} * F_{min_{operating}}$ (I assume operating frequency is
         the same as switching frequency.)
       - $F_{CO} < 75 kHz$
+      - **Choose $F_{CO} = 68 kHz$**.
+   1. $G_{DC} = \frac{800 * 0.8}{5} = 128$
+   1. Find required gain and phase boost of crossover network:
+      - $Gain = -20 log(2 \pi R_{sense} 68 * 10^3 * 1.5 * 10^{-6})$
+      - $$
+        Phase_{loss} = arctan(2 \pi 68 * 10^3 * R_{ESR} * 1.5 * 10^{-6}) -
+            arctan(2 \pi 68 * 10^3 * \frac{5}{1.5} * 1.5 * 10^{-6}) - 10 deg
+        $$
+        $$
+        Phase_{loss} = 1.284742 - 1.132991 - 10 deg = 1.305 deg
+        $$
+   1. Find phase boost required to meet phase margin:
+      - **Choose $PhaseMargin = PM = 60 \degree$**
+      - $$
+        PB = (PM - 90\degree) - Phase_{loss}
+        $$
+        $$
+        PB = -30 \degree - 1.305 \degree = 31.31 \degree
+        $$
+   1. Place zero-pole pair in compensation network symmetrically around the
+      intended closed loop frequency to maximize phase boost at crossover point
+      - $$
+        k = tan(\frac{PB}{2} + 45\degree) = tan(60.655\degree) = 1.779
+        $$
+      - $$
+        F_{Z1} = 38.23 kHz
+        $$
+      - $$
+        F_{P1} = 120.95 kHz
+        $$
+   1. $$
+      R_{Z} = \frac{2 \pi 68 kHz * 5 * 1.5 uF * 8.696 M * 0.754}{10 * 800 * 0.8}
+      $$
+      $$
+      R_{Z} = 5.252 k\Omega \implies R3
+      $$
+      $$
+      C_{Z} = \frac{1}{2 \pi F_{Z1} R_{Z}} = 793 pF \implies C4
+      $$
+      $$
+      C_{P} = \frac{1}{2 \pi F_{P1} R_{Z}} = 251 pF \implies C5
+      $$
